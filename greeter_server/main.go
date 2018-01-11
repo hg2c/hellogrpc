@@ -25,13 +25,14 @@ import (
 	"net"
 
 	pb "github.com/hg2c/hellogrpc/helloworld"
+	lib "github.com/hg2c/hellogrpc/lib"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-const (
-	port = ":50051"
+var (
+	port = lib.GetConfig("greeter.port", ":50051")
 )
 
 // server is used to implement helloworld.GreeterServer.

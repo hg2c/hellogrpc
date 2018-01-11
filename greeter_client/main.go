@@ -23,12 +23,13 @@ import (
 	"os"
 
 	pb "github.com/hg2c/hellogrpc/helloworld"
+	lib "github.com/hg2c/hellogrpc/lib"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
-const (
-	address     = "localhost:50051"
+var (
+	address     = lib.GetConfig("greeter.server", "localhost") + ":50051"
 	defaultName = "world"
 )
 

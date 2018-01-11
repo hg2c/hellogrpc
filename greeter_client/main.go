@@ -21,6 +21,7 @@ package main
 import (
 	"log"
 	"os"
+	"time"
 
 	pb "github.com/hg2c/hellogrpc/helloworld"
 	lib "github.com/hg2c/hellogrpc/lib"
@@ -30,7 +31,7 @@ import (
 
 var (
 	address     = lib.GetConfig("greeter.server", "localhost") + ":50051"
-	defaultName = "world"
+	defaultName = lib.GetConfig("greeter.message", "world")
 )
 
 func main() {
@@ -47,9 +48,17 @@ func main() {
 	if len(os.Args) > 1 {
 		name = os.Args[1]
 	}
-	r, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: name})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+
+	tick := time.Tick(100 * time.Millisecond)
+	for {
+		select {
+		case <-tick:
+			r, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: name})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
+			log.Printf("Greeting: %s", r.Message)
+		default:
+		}
 	}
-	log.Printf("Greeting: %s", r.Message)
 }

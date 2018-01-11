@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -eu -o pipefail
+
 go get github.com/golang/mock/gomock
 go get github.com/golang/mock/mockgen
 

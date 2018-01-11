@@ -1,0 +1,19 @@
+language: go
+
+services:
+  - docker
+
+go:
+  - 1.9.x
+
+install:
+  - make deps
+
+script:
+  - make build
+  - make image
+
+after_success:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker push hg2c/hellogrpc:server
+  - docker push hg2c/hellogrpc:client

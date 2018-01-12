@@ -18,4 +18,5 @@ script:
 after_success:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - docker push hg2c/hellogrpc:server
+  - docker push hg2c/hellogrpc:server-v2
   - docker push hg2c/hellogrpc:client

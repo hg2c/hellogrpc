@@ -40,6 +40,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
+
+	log.Printf("conn: %#v", conn)
+
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
 
@@ -56,9 +59,10 @@ func main() {
 			r, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: name})
 			if err != nil {
 				log.Printf("could not greet: %v", err)
+				// client.Redial()
+			} else {
+				log.Printf("Greeting: %s", r.Message)
 			}
-			log.Printf("Greeting: %s", r.Message)
-		default:
 		}
 	}
 }

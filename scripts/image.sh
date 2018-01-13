@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-docker build -t hg2c/hellogrpc:server -f Dockerfile.server .
-docker build -t hg2c/hellogrpc:server-v2 -f Dockerfile.server-v2 .
-docker build -t hg2c/hellogrpc:client -f Dockerfile.client .
+source './scripts/project.sh'
+
+APP_IMAGE=${APP_AUTHOR}/${APP_NAME}
+
+run docker build -t ${APP_IMAGE}:server-v1 -f Dockerfile.server-v1 .
+run docker build -t ${APP_IMAGE}:server-v2 -f Dockerfile.server-v2 .
+run docker build -t ${APP_IMAGE}:client -f Dockerfile.client .

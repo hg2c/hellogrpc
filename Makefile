@@ -1,6 +1,10 @@
 .PHONY: build
 build:
-	./scripts/build.sh
+	@./scripts/binary.sh
+
+.PHONY: dev
+dev:
+	@./scripts/docker.sh
 
 .PHONY: vendor
 vendor:
@@ -9,3 +13,11 @@ vendor:
 .PHONY: image
 image:
 	./scripts/image.sh
+
+.PHONY: deploy-image
+deploy-image:
+	./scripts/deploy-image.sh
+
+.PHONY: cross
+cross:
+	@./scripts/cross.sh

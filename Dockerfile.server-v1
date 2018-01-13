@@ -1,0 +1,4 @@
+FROM alpine:latest
+
+COPY build/greeter-server-v1-linux-amd64 /usr/local/bin/greeter-server
+CMD ["/usr/local/bin/greeter-server"]

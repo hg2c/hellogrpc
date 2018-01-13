@@ -89,7 +89,7 @@ build() {
         local GOARCH=${PLATFORM#*/}
 
         local TARGET=${OUTPUT}/${APP_NAME}-${GOOS}-${GOARCH}
-        run GOOS=$GOOS GOARCH=$GOARCH go build -o ${TARGET} -ldflags \"${LDFLAGS}\" ${APP_PACKAGE}
+        run CGO_ENABLED=0 GOOS=$GOOS GOARCH=$GOARCH go build -o ${TARGET} -ldflags \"${LDFLAGS}\" ${APP_PACKAGE}
     done
 }
 

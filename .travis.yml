@@ -12,7 +12,7 @@ install:
 
 script:
   - make vendor
-  - make build
+  - ./scripts/docker.sh ./scripts/binary.sh
   - make image
 
 after_success:

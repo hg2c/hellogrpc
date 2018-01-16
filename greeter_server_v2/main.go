@@ -24,6 +24,9 @@ import (
 	"log"
 	"net"
 
+	"net/http"
+	_ "net/http/pprof"
+
 	pb "github.com/hg2c/hellogrpc/helloworld"
 	lib "github.com/hg2c/hellogrpc/lib"
 	"golang.org/x/net/context"
@@ -44,6 +47,10 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 func main() {
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

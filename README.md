@@ -4,4 +4,8 @@ Hello gRPC
 
 ## development
 
-docker run -it -v $(pwd):/go/src/github.com/hg2c/hellogrpc hg2c/golang:alpine bash
+make dev
+
+## Compiling your protocol buffers
+
+protoc -I helloworld/ helloworld/helloworld.proto --go_out=plugins=grpc:helloworld

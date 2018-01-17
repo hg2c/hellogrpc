@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# TODO Makefile env
+
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -6,7 +9,8 @@ set -o pipefail
 CWD=$( cd "$( dirname "${BASH_SOURCE}" )" && pwd -P )
 
 # project dir. sample: /go/src/github.com/hg2c/swain-go
-PROJECT_ROOT=$( cd $CWD && cd .. && pwd)
+INFER_PROJECT_ROOT=$( cd $CWD && cd .. && pwd)
+PROJECT_ROOT=${PROJECT_ROOT:-$INFER_PROJECT_ROOT}
 
 # project configuration file
 CONFIG_FILE=${PROJECT_ROOT}/.project
@@ -73,27 +77,14 @@ LDFLAGS="\
 "
 
 # TODO dry run
-run() { echo RUN: $@ && eval $@; }
-dryrun() { echo DRYRUN: $@; }
+run() {
+    echo RUN: $@ && eval $@;
+    echo DRYRUN: $@;
+}
 
 show() {
     local N=$1
     eval "echo $N: \$$N"
-}
-
-build() {
-    local APP_NAME=${1:-$APP_NAME}
-    local APP_PACKAGE=${2:-$APP_PACKAGE}
-
-    local OUTPUT=./build
-
-    for PLATFORM in ${APP_PLATFORMS}; do
-        local GOOS=${PLATFORM%/*}
-        local GOARCH=${PLATFORM#*/}
-
-        local TARGET=${OUTPUT}/${APP_NAME}-${GOOS}-${GOARCH}
-        run CGO_ENABLED=0 GOOS=$GOOS GOARCH=$GOARCH go build -o ${TARGET} -ldflags \"${LDFLAGS}\" ${APP_PACKAGE}
-    done
 }
 
 source "./scripts/${APP_LANGUAGE}.sh"
@@ -102,5 +93,30 @@ show PROJECT_ROOT
 show APP_NAME
 show APP_AUTHOR
 show APP_PACKAGE
+show APP_LANGUAGE
 show VERSION
 show APP_IMAGE
+echo ------------
+
+build() {
+    # run ${APP_LANGUAGE}::build $APP_NAME $APP_PACKAGE
+    for MODULE in ${HGC_MODULES}; do
+        run ${APP_LANGUAGE}::build $MODULE $APP_PACKAGE/$MODULE
+    done
+}
+
+docker::build() {
+    IMAGE_NAME=$1
+    IMAGE_VERSION=$2
+    IMAGE_FILE=$3
+
+    run docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} -f ${IMAGE_FILE} .
+
+    run docker tag ${IMAGE_NAME}:${IMAGE_VERSION} ${IMAGE_NAME}:latest
+}
+
+hgc::docker::build() {
+    for MODULE in ${HGC_MODULES}; do
+        run docker::build ${APP_AUTHOR}/${APP_NAME}-${MODULE} ${GIT_COMMIT} ${MODULE}/Dockerfile
+    done
+}

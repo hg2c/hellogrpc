@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
-set -eu
-CWD=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+set -o errexit
+set -o nounset
+set -o pipefail
+
+CWD=$( cd "$( dirname "${BASH_SOURCE}" )" && pwd -P )
 
 # project dir. sample: /go/src/github.com/hg2c/swain-go
-PRD=$( cd $CWD && cd .. && pwd)
+PROJECT_ROOT=$( cd $CWD && cd .. && pwd)
 
 # project configuration file
-CONFIG_FILE=$PRD/.project
+CONFIG_FILE=${PROJECT_ROOT}/.project
 if [ -s "${CONFIG_FILE}" ]; then source ${CONFIG_FILE}; fi
 
+INFER_LANGUAGE=golang
 # /go/src/github.com/ hg2c /swain-go
-_HEAD=${PRD%/*}
+_HEAD=${PROJECT_ROOT%/*}
 INFER_AUTHOR=${_HEAD##*/}
 # /go/src/github.com/hg2c/ swain-go
-INFER_NAME=${PRD##*/}
+INFER_NAME=${PROJECT_ROOT##*/}
 # /go/src/ github.com/hg2c/swain-go
 INFER_PACKAGE=github.com/$INFER_AUTHOR/$INFER_NAME
 
@@ -30,7 +34,6 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 VERSION=${COMMIT}
 
 # check for changed files (not untracked files)
-# TODO dirty after ga .
 if [[ -n "$(git diff --cached --shortstat 2> /dev/null | tail -n1)" \
          || -n "$(git diff --shortstat 2> /dev/null | tail -n1)" ]]; then
     COMMIT="${COMMIT}-dirty"
@@ -52,14 +55,13 @@ INFER_PLATFORM="${INFER_GOOS}/${INFER_GOARCH}"
 
 APP_NAME=${APP_NAME:-$INFER_NAME}
 APP_AUTHOR=${APP_AUTHOR:-$INFER_AUTHOR}
+APP_LANGUAGE=golang
 APP_PACKAGE=${APP_PACKAGE:-$INFER_PACKAGE}
 
 APP_IMAGE=${APP_AUTHOR}/${APP_NAME}:${GIT_COMMIT}
 APP_IMAGE_LATEST=${APP_AUTHOR}/${APP_NAME}:latest
 
 APP_PLATFORMS=${APP_PLATFORMS:-$INFER_PLATFORM}
-
-DOCKER_BUILD_IMAGE="hg2c/golang:alpine"
 
 LDFLAGS="\
 -X main.APP_NAME=$APP_NAME \
@@ -70,8 +72,9 @@ LDFLAGS="\
 -X main.BUILD_TIME=$BUILD_TIME \
 "
 
-run() { echo $@ && eval $@; }
-# run() { echo $@; }
+# TODO dry run
+run() { echo RUN: $@ && eval $@; }
+dryrun() { echo DRYRUN: $@; }
 
 show() {
     local N=$1
@@ -93,6 +96,9 @@ build() {
     done
 }
 
+source "./scripts/${APP_LANGUAGE}.sh"
+
+show PROJECT_ROOT
 show APP_NAME
 show APP_AUTHOR
 show APP_PACKAGE

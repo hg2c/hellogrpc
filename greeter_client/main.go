@@ -19,50 +19,24 @@
 package main
 
 import (
-	"log"
-	"os"
-	"time"
+	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
+	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/tracing"
 
-	pb "github.com/hg2c/hellogrpc/helloworld"
-	lib "github.com/hg2c/hellogrpc/lib"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-)
+	"github.com/hg2c/hellogrpc/greeter"
 
-var (
-	address     = lib.GetConfig("greeter.server", "localhost") + ":50051"
-	defaultName = lib.GetConfig("greeter.message", "world")
+	"github.com/uber/jaeger-lib/metrics/go-kit"
+	"github.com/uber/jaeger-lib/metrics/go-kit/expvar"
+	"go.uber.org/zap"
 )
 
 func main() {
-	// Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
+	logger0, _ := zap.NewDevelopment()
+	logger := log.NewFactory(logger0.With(zap.String("service", "greeter")))
 
-	log.Printf("conn: %#v", conn)
+	metricsFactory := xkit.Wrap("", expvar.NewFactory(10)) // 10 buckets for histograms
+	logger.Bg().Info("Using expvar as metrics backend")
 
-	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
-
-	// Contact the server and print out its response.
-	name := defaultName
-	if len(os.Args) > 1 {
-		name = os.Args[1]
-	}
-
-	tick := time.Tick(100 * time.Millisecond)
-	for {
-		select {
-		case <-tick:
-			r, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: name})
-			if err != nil {
-				log.Printf("could not greet: %v", err)
-				// client.Redial()
-			} else {
-				log.Printf("Greeting: %s", r.Message)
-			}
-		}
-	}
+	tracer := tracing.Init("frontend", metricsFactory.Namespace("frontend", nil), logger)
+	c := greeter.NewClient(tracer, logger)
+	c.Hello("luo")
 }

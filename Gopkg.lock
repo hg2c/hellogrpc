@@ -15,6 +15,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/beorn7/perks"
+  packages = ["quantile"]
+  revision = "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
+
+[[projects]]
+  branch = "master"
   name = "github.com/charithe/otgrpc"
   packages = ["."]
   revision = "1f3477f51fafc8ffd89833b1eb6ffefab998c283"
@@ -56,19 +62,29 @@
   revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/grpc-ecosystem/grpc-opentracing"
-  packages = ["go/otgrpc"]
-  revision = "0e7658f8ee99ee5aa683e2a032b8880091b7a055"
+  name = "github.com/inconshreveable/mousetrap"
+  packages = ["."]
+  revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
+  version = "v1.0"
 
 [[projects]]
   name = "github.com/jaegertracing/jaeger"
   packages = [
+    "examples/hotrod/pkg/delay",
+    "examples/hotrod/pkg/httperr",
     "examples/hotrod/pkg/log",
-    "examples/hotrod/pkg/tracing"
+    "examples/hotrod/pkg/tracing",
+    "examples/hotrod/services/config",
+    "examples/hotrod/services/customer"
   ]
   revision = "32bc1b7ad6dff16f822ab818b96ce3f73acacc11"
   version = "v1.1.0"
+
+[[projects]]
+  name = "github.com/matttproud/golang_protobuf_extensions"
+  packages = ["pbutil"]
+  revision = "3247c84500bff8d9fb6d579d800f20b3e091582c"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
@@ -85,6 +101,49 @@
   ]
   revision = "1949ddbfd147afd4d964a9f00b24eb291e0e7c38"
   version = "v1.0.2"
+
+[[projects]]
+  name = "github.com/prometheus/client_golang"
+  packages = ["prometheus"]
+  revision = "c5b7fccd204277076155f10851dad72b76a49317"
+  version = "v0.8.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/prometheus/client_model"
+  packages = ["go"]
+  revision = "99fa1f4be8e564e8a6b613da7fa6f46c9edafc6c"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/prometheus/common"
+  packages = [
+    "expfmt",
+    "internal/bitbucket.org/ww/goautoneg",
+    "model"
+  ]
+  revision = "89604d197083d4781071d3c65855d24ecfb0a563"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/prometheus/procfs"
+  packages = [
+    ".",
+    "xfs"
+  ]
+  revision = "b15cd069a83443be3154b719d0cc9fe8117f09fb"
+
+[[projects]]
+  name = "github.com/spf13/cobra"
+  packages = ["."]
+  revision = "7b2c5ac9fc04fc5efafb60700713d4fa609b777b"
+  version = "v0.0.1"
+
+[[projects]]
+  name = "github.com/spf13/pflag"
+  packages = ["."]
+  revision = "e57e3eeb33f795204c1ca35f56c44f83227c6e66"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/uber/jaeger-client-go"
@@ -111,7 +170,8 @@
   packages = [
     "metrics",
     "metrics/go-kit",
-    "metrics/go-kit/expvar"
+    "metrics/go-kit/expvar",
+    "metrics/prometheus"
   ]
   revision = "7f95f4f7e80028096410abddaae2556e4c61b59f"
   version = "v1.3.1"
@@ -216,6 +276,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b59f84ab95c17006deb2ec3d82aecdd5ef03a1baa2eb3c1b4cd5dc39eaa2fa34"
+  inputs-digest = "33b530e05eb7fa7e75f54449e7251783cfb9b534f87b9314fde55079440fb40c"
   solver-name = "gps-cdcl"
   solver-version = 1

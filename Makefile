@@ -21,3 +21,8 @@ deploy-image:
 .PHONY: cross
 cross:
 	@./scripts/cross.sh
+
+.PHONY: proto
+proto:
+	protoc -I helloworld/ --go_out=plugins=grpc:helloworld helloworld/helloworld.proto
+	protoc -I customer/proto/ --go_out=plugins=grpc:customer/proto customer/proto/customer.proto

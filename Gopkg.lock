@@ -50,6 +50,12 @@
   revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/grpc-ecosystem/grpc-opentracing"
+  packages = ["go/otgrpc"]
+  revision = "0e7658f8ee99ee5aa683e2a032b8880091b7a055"
+
+[[projects]]
   name = "github.com/jaegertracing/jaeger"
   packages = [
     "examples/hotrod/pkg/log",
@@ -204,6 +210,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "34329a944db2a0d02c8be6878fd03aa65c100f514cfb45c7a78550fb4da37091"
+  inputs-digest = "e00cf0d4e3760334aabbc2b02945925db3dd84997598590f48e294d712d5d5e3"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -36,7 +36,7 @@ func main() {
 	metricsFactory := xkit.Wrap("", expvar.NewFactory(10)) // 10 buckets for histograms
 	logger.Bg().Info("Using expvar as metrics backend")
 
-	tracer := tracing.Init("frontend", metricsFactory.Namespace("frontend", nil), logger)
+	tracer := tracing.Init("greeter", metricsFactory.Namespace("greeter", nil), logger)
 	c := greeter.NewClient(tracer, logger)
 	c.Hello("luo")
 }

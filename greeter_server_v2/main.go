@@ -21,9 +21,16 @@
 package main
 
 import (
-	"log"
+	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
+	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/tracing"
+
+	"github.com/uber/jaeger-lib/metrics/go-kit"
+	"github.com/uber/jaeger-lib/metrics/go-kit/expvar"
+	"go.uber.org/zap"
+
 	"net"
 
+	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"net/http"
 	_ "net/http/pprof"
 
@@ -47,19 +54,31 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 func main() {
+	logger0, _ := zap.NewDevelopment()
+	logger := log.NewFactory(logger0.With(zap.String("service", "greeter")))
+
 	go func() {
-		log.Println(http.ListenAndServe("localhost:6060", nil))
+		http.ListenAndServe("localhost:6060", nil)
 	}()
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		logger.Bg().Fatal("failed to listen: %v", zap.Error(err))
 	}
-	s := grpc.NewServer()
+
+	metricsFactory := xkit.Wrap("", expvar.NewFactory(10)) // 10 buckets for histograms
+	logger.Bg().Info("Using expvar as metrics backend")
+
+	tracer := tracing.Init("greeter", metricsFactory.Namespace("greeter", nil), logger)
+
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(
+			otgrpc.OpenTracingServerInterceptor(tracer)))
+
 	pb.RegisterGreeterServer(s, &server{})
 	// Register reflection service on gRPC server.
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		logger.Bg().Fatal("failed to serve: %v", zap.Error(err))
 	}
 }

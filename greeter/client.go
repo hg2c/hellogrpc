@@ -6,8 +6,8 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
-
+	// "github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
+	"github.com/charithe/otgrpc"
 	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 
@@ -28,11 +28,10 @@ type Client struct {
 
 func NewClient(tracer opentracing.Tracer, logger log.Factory) *Client {
 	// Set up a connection to the server.
-	// conn, err := grpc.Dial(address, grpc.WithInsecure())
+	th := otgrpc.NewTraceHandler(tracer)
 	conn, err := grpc.Dial(
 		address,
-		grpc.WithUnaryInterceptor(
-			otgrpc.OpenTracingClientInterceptor(tracer)),
+		grpc.WithStatsHandler(th),
 		grpc.WithInsecure(),
 	)
 	if err != nil {

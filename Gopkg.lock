@@ -15,6 +15,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/charithe/otgrpc"
+  packages = ["."]
+  revision = "1f3477f51fafc8ffd89833b1eb6ffefab998c283"
+
+[[projects]]
+  branch = "master"
   name = "github.com/codahale/hdrhistogram"
   packages = ["."]
   revision = "3a0bb77429bd3a61596f5e8a3172445844342120"
@@ -210,6 +216,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e00cf0d4e3760334aabbc2b02945925db3dd84997598590f48e294d712d5d5e3"
+  inputs-digest = "b59f84ab95c17006deb2ec3d82aecdd5ef03a1baa2eb3c1b4cd5dc39eaa2fa34"
   solver-name = "gps-cdcl"
   solver-version = 1

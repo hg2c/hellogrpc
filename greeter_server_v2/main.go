@@ -30,7 +30,8 @@ import (
 
 	"net"
 
-	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
+	// "github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
+	"github.com/charithe/otgrpc"
 	"net/http"
 	_ "net/http/pprof"
 
@@ -71,9 +72,11 @@ func main() {
 
 	tracer := tracing.Init("greeter", metricsFactory.Namespace("greeter", nil), logger)
 
-	s := grpc.NewServer(
-		grpc.UnaryInterceptor(
-			otgrpc.OpenTracingServerInterceptor(tracer)))
+	th := otgrpc.NewTraceHandler(tracer)
+	s := grpc.NewServer(grpc.StatsHandler(th))
+	// s := grpc.NewServer(
+	// 	grpc.UnaryInterceptor(
+	// 		otgrpc.OpenTracingServerInterceptor(tracer)))
 
 	pb.RegisterGreeterServer(s, &server{})
 	// Register reflection service on gRPC server.

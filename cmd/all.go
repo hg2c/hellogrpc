@@ -9,6 +9,9 @@ var allCmd = &cobra.Command{
 	Long:  `Starts all services.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// logger.Info("Starting all services")
+		// go customerCmd.RunE(customerCmd, args)
+		// customerClientCmd.RunE(customerClientCmd, args)
+
 		go greeterCmd.RunE(greeterCmd, args)
 		greeterClientCmd.RunE(greeterClientCmd, args)
 		// go customerCmd.RunE(customerCmd, args)

@@ -59,25 +59,19 @@
   branch = "master"
   name = "github.com/hwgo/pher"
   packages = [
+    "log",
     "metrics",
-    "otgrpc"
+    "otgrpc",
+    "tracing",
+    "wgrpc"
   ]
-  revision = "968af2d8b5f5b8bf7b0337c31bd280ace8c5ca89"
+  revision = "9613943098f7ddb47843cc2cab1a659c1fb0da4b"
 
 [[projects]]
   name = "github.com/inconshreveable/mousetrap"
   packages = ["."]
   revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
   version = "v1.0"
-
-[[projects]]
-  name = "github.com/jaegertracing/jaeger"
-  packages = [
-    "examples/hotrod/pkg/log",
-    "examples/hotrod/pkg/tracing"
-  ]
-  revision = "32bc1b7ad6dff16f822ab818b96ce3f73acacc11"
-  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/matttproud/golang_protobuf_extensions"
@@ -275,6 +269,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "487e66f4eeb3fae55d9217a5535d4a80dc20c97907ba7ad907f036fe04448437"
+  inputs-digest = "8e4b31d0467901fa4497bd3e37fc9c793e24f5cb204cf981c0186aabdb48ab07"
   solver-name = "gps-cdcl"
   solver-version = 1

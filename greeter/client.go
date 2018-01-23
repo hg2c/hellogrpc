@@ -14,8 +14,8 @@ type Client struct {
 	client pb.GreeterClient
 }
 
-func NewClient(name string, hostPort string) *Client {
-	ct := rpc.NewClientWithTracing(name, hostPort)
+func NewClient(name string, host string, port int) *Client {
+	ct := rpc.NewClientWithTracing(name, host, port)
 	c := pb.NewGreeterClient(ct.Conn())
 
 	return &Client{ct, c}

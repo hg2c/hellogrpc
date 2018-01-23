@@ -17,13 +17,13 @@ type Client struct {
 	cc     *grpc.ClientConn
 }
 
-func NewClientWithTracing(name string, hostPort string) *Client {
+func NewClientWithTracing(name string, host string, port int) *Client {
 	logger := log.NewFactory(logger.With(zap.String("client", name)))
 	tracer := tracing.Init(name, metricsFactory.Namespace(name, nil), logger)
 
 	th := otgrpc.NewTraceHandler(tracer)
 	conn, err := grpc.Dial(
-		hostPort,
+		HostPort(host, port),
 		grpc.WithStatsHandler(th),
 		grpc.WithInsecure(),
 	)

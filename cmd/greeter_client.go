@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/hg2c/hellogrpc/greeter"
-	"github.com/hg2c/hellogrpc/rpc"
+	"github.com/hwgo/pher/wgrpc"
 )
 
 // greeterClientCmd represents the greeter command
@@ -26,7 +26,7 @@ var greeterClientCmd = &cobra.Command{
 }
 
 var (
-	greeterClientOptions rpc.ListenAddress
+	greeterClientOptions wgrpc.ListenAddress
 )
 
 func init() {

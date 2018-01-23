@@ -4,7 +4,7 @@ package greeter
 
 import (
 	pb "github.com/hg2c/hellogrpc/helloworld"
-	"github.com/hg2c/hellogrpc/rpc"
+	"github.com/hwgo/pher/wgrpc"
 	"golang.org/x/net/context"
 )
 
@@ -14,8 +14,8 @@ func (s *greeterServer) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.
 	return &pb.HelloReply{Message: "Nihao " + in.Name}, nil
 }
 
-func NewServer(name string, hostPort string) *rpc.Server {
-	s := rpc.NewServerWithTracing(name, hostPort)
+func NewServer(name string, hostPort string) *wgrpc.Server {
+	s := wgrpc.NewServerWithTracing(name, hostPort)
 	pb.RegisterGreeterServer(s.Gs, &greeterServer{})
 	return s
 }

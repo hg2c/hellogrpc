@@ -6,16 +6,16 @@ import (
 	"go.uber.org/zap"
 
 	pb "github.com/hg2c/hellogrpc/helloworld"
-	"github.com/hg2c/hellogrpc/rpc"
+	"github.com/hwgo/pher/wgrpc"
 )
 
 type Client struct {
-	*rpc.Client
+	*wgrpc.Client
 	client pb.GreeterClient
 }
 
 func NewClient(name string, host string, port int) *Client {
-	ct := rpc.NewClientWithTracing(name, host, port)
+	ct := wgrpc.NewClientWithTracing(name, host, port)
 	c := pb.NewGreeterClient(ct.Conn())
 
 	return &Client{ct, c}

@@ -19,14 +19,15 @@
 package main
 
 import (
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/tracing"
+	"github.com/hwgo/pher/tracing"
 
 	"github.com/hg2c/hellogrpc/greeter"
 
 	"github.com/uber/jaeger-lib/metrics/go-kit"
 	"github.com/uber/jaeger-lib/metrics/go-kit/expvar"
 	"go.uber.org/zap"
+
+	"github.com/hwgo/pher/log"
 )
 
 func main() {

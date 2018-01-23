@@ -6,13 +6,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"github.com/hwgo/pher/otgrpc"
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/tracing"
+	"github.com/hwgo/pher/tracing"
 	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 
+	"github.com/hwgo/pher/log"
 	"github.com/hwgo/pher/metrics"
+	"github.com/hwgo/pher/otgrpc"
 )
 
 type Server struct {
@@ -37,7 +37,7 @@ func (s *Server) Run() error {
 }
 
 func NewServerWithTracing(name string, hostPort string) *Server {
-	logger := log.NewFactory(logger.With(zap.String("service", name)))
+	logger := log.NewFactory(log.DefaultLogger.With(zap.String("service", name)))
 	metricsFactory := metrics.DefaultMetricsFactory()
 	tracer := tracing.Init(name, metricsFactory.Namespace(name, nil), logger)
 

@@ -3,13 +3,13 @@ package rpc
 import (
 	"google.golang.org/grpc"
 
-	"github.com/hwgo/pher/otgrpc"
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/tracing"
+	"github.com/hwgo/pher/tracing"
 	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 
+	"github.com/hwgo/pher/log"
 	"github.com/hwgo/pher/metrics"
+	"github.com/hwgo/pher/otgrpc"
 )
 
 type Client struct {
@@ -19,7 +19,7 @@ type Client struct {
 }
 
 func NewClientWithTracing(name string, host string, port int) *Client {
-	logger := log.NewFactory(logger.With(zap.String("client", name)))
+	logger := log.NewFactory(log.DefaultLogger.With(zap.String("client", name)))
 	tracer := tracing.Init(name, metrics.Namespace(name, nil), logger)
 
 	th := otgrpc.NewTraceHandler(tracer)

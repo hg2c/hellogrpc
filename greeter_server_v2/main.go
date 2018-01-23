@@ -21,8 +21,7 @@
 package main
 
 import (
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/tracing"
+	"github.com/hwgo/pher/tracing"
 
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-lib/metrics"
@@ -43,6 +42,8 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+
+	"github.com/hwgo/pher/log"
 )
 
 var (

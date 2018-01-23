@@ -34,7 +34,7 @@ import (
 	"net"
 
 	// "github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
-	"github.com/charithe/otgrpc"
+	"github.com/hwgo/pher/otgrpc"
 	_ "net/http"
 	_ "net/http/pprof"
 

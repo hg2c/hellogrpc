@@ -21,12 +21,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/charithe/otgrpc"
-  packages = ["."]
-  revision = "1f3477f51fafc8ffd89833b1eb6ffefab998c283"
-
-[[projects]]
-  branch = "master"
   name = "github.com/codahale/hdrhistogram"
   packages = ["."]
   revision = "3a0bb77429bd3a61596f5e8a3172445844342120"
@@ -62,6 +56,15 @@
   revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/hwgo/pher"
+  packages = [
+    "metrics",
+    "otgrpc"
+  ]
+  revision = "968af2d8b5f5b8bf7b0337c31bd280ace8c5ca89"
+
+[[projects]]
   name = "github.com/inconshreveable/mousetrap"
   packages = ["."]
   revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
@@ -70,12 +73,8 @@
 [[projects]]
   name = "github.com/jaegertracing/jaeger"
   packages = [
-    "examples/hotrod/pkg/delay",
-    "examples/hotrod/pkg/httperr",
     "examples/hotrod/pkg/log",
-    "examples/hotrod/pkg/tracing",
-    "examples/hotrod/services/config",
-    "examples/hotrod/services/customer"
+    "examples/hotrod/pkg/tracing"
   ]
   revision = "32bc1b7ad6dff16f822ab818b96ce3f73acacc11"
   version = "v1.1.0"
@@ -276,6 +275,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "33b530e05eb7fa7e75f54449e7251783cfb9b534f87b9314fde55079440fb40c"
+  inputs-digest = "487e66f4eeb3fae55d9217a5535d4a80dc20c97907ba7ad907f036fe04448437"
   solver-name = "gps-cdcl"
   solver-version = 1

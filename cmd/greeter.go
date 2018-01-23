@@ -5,10 +5,6 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
-	"go.uber.org/zap"
-
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/tracing"
 
 	"github.com/hg2c/hellogrpc/greeter"
 )
@@ -19,12 +15,9 @@ var greeterCmd = &cobra.Command{
 	Short: "Starts Greeter service",
 	Long:  `Starts Greeter service.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		logger := log.NewFactory(logger.With(zap.String("service", "greeter")))
 		server := greeter.NewServer(
+			"greeter",
 			net.JoinHostPort(greeterOptions.serverInterface, strconv.Itoa(greeterOptions.serverPort)),
-			tracing.Init("greeter", metricsFactory.Namespace("greeter", nil), logger),
-			metricsFactory,
-			logger,
 		)
 		return server.Run()
 	},

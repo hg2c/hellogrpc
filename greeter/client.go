@@ -1,53 +1,34 @@
 package greeter
 
 import (
-	pb "github.com/hg2c/hellogrpc/helloworld"
 	"golang.org/x/net/context"
-	"google.golang.org/grpc"
 
-	"github.com/charithe/otgrpc"
-	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 
-	"github.com/jaegertracing/jaeger/examples/hotrod/pkg/log"
+	pb "github.com/hg2c/hellogrpc/helloworld"
+	"github.com/hg2c/hellogrpc/rpc"
 )
 
 type Client struct {
-	tracer opentracing.Tracer
-	logger log.Factory
+	*rpc.Client
 	client pb.GreeterClient
-	cc     *grpc.ClientConn
 }
 
-func NewClient(hostPort string, tracer opentracing.Tracer, logger log.Factory) *Client {
-	th := otgrpc.NewTraceHandler(tracer)
-	conn, err := grpc.Dial(
-		hostPort,
-		grpc.WithStatsHandler(th),
-		grpc.WithInsecure(),
-	)
-	if err != nil {
-		logger.Bg().Fatal("did not connect: ", zap.Error(err))
-	}
+func NewClient(name string, hostPort string) *Client {
+	ct := rpc.NewClientWithTracing(name, hostPort)
+	c := pb.NewGreeterClient(ct.Conn())
 
-	c := pb.NewGreeterClient(conn)
-
-	return &Client{
-		tracer: tracer,
-		logger: logger,
-		client: c,
-		cc:     conn,
-	}
+	return &Client{ct, c}
 }
 
 func (c *Client) Hello(name string) {
-	defer c.cc.Close()
+	defer c.Close()
 
-	c.logger.Bg().Info("hello", zap.String("name", name))
+	c.Logger().Info("hello", zap.String("name", name))
 	r, err := c.client.SayHello(context.Background(), &pb.HelloRequest{Name: name})
 	if err != nil {
-		c.logger.Bg().Info("could not greet: ", zap.Error(err))
+		c.Logger().Info("could not greet: ", zap.Error(err))
 	} else {
-		c.logger.Bg().Info("Greeting: ", zap.String("message", r.Message))
+		c.Logger().Info("Greeting: ", zap.String("message", r.Message))
 	}
 }

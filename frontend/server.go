@@ -69,6 +69,8 @@ func (s *Server) dispatch(w http.ResponseWriter, r *http.Request) {
 		"customer_client",
 		"127.0.0.1",
 		50052,
+		s.tracer,
+		s.logger,
 	)
 	defer customerClient.Close()
 

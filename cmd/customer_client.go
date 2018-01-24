@@ -13,7 +13,7 @@ var customerClientCmd = &cobra.Command{
 	Short: "Starts Customer service",
 	Long:  `Starts Customer service.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client := customer.NewClient(
+		client := customer.NewClient2(
 			"customer_client",
 			customerClientOptions.Host,
 			customerClientOptions.Port,

@@ -3,14 +3,21 @@
 package customer
 
 import (
-	"github.com/hg2c/hellogrpc/customer/proto"
-	"github.com/hwgo/pher/wgrpc"
 	"golang.org/x/net/context"
+	"time"
+
+	// "github.com/hwgo/pher/delay"
+	"github.com/hwgo/pher/wgrpc"
+
+	// "github.com/hg2c/hellogrpc/config"
+	"github.com/hg2c/hellogrpc/customer/proto"
 )
 
 type customerServer struct{}
 
 func (s *customerServer) Get(context.Context, *proto.CustomerRequest) (*proto.CustomerReply, error) {
+	// simulate RPC delay
+	time.Sleep(777 * time.Millisecond)
 	return &proto.CustomerReply{
 			Id:       "218",
 			Name:     "Tom",

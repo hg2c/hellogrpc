@@ -18,8 +18,7 @@ type Client struct {
 }
 
 func NewClient(name string, host string, port int, tracer opentracing.Tracer, logger log.Factory) *Client {
-	// ct := wgrpc.NewClientWithTracing(name, host, port)
-	ct := wgrpc.NewOTClient(host, port, tracer, logger)
+	ct := wgrpc.NewClient(host, port, tracer, logger)
 	c := proto.NewCustomerClient(ct.Conn())
 
 	return &Client{ct, c}
@@ -27,7 +26,6 @@ func NewClient(name string, host string, port int, tracer opentracing.Tracer, lo
 
 func NewClient2(name string, host string, port int) *Client {
 	ct := wgrpc.NewClientWithTracing(name, host, port)
-	// ct := wgrpc.NewOTClient(name, host, port, tracer, logger)
 	c := proto.NewCustomerClient(ct.Conn())
 
 	return &Client{ct, c}

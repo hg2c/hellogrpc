@@ -34,4 +34,10 @@ gopher:
 	rm -rf vendor/github.com/hwgo/pher
 	ln -sf /luo/w/hwgo/pher vendor/github.com/hwgo/pher
 
-.PHONY: tags gopher
+install:
+	go install
+
+watch:
+	filewatcher -x vendor -x .git go install
+
+.PHONY: tags gopher install watch

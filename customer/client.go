@@ -21,13 +21,15 @@ func NewClient(name string, host string, port int) *Client {
 	return &Client{ct, c}
 }
 
-func (c *Client) Get() {
+func (c *Client) Get() *proto.CustomerReply {
 	defer c.Close()
 
 	r, err := c.client.Get(context.Background(), &proto.CustomerRequest{Id: "760"})
 	if err != nil {
 		c.Logger().Info("could not greet: ", zap.Error(err))
+		return nil
 	} else {
 		c.Logger().Info("Customer: ", zap.String("customer name", r.Name))
+		return r
 	}
 }

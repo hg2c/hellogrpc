@@ -20,7 +20,7 @@ func (s *greeterServer) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.
 	)
 	defer client.Close()
 
-	client.LoggerFactory().For(ctx).Info("xxoo")
+	client.LoggerFactory().For(ctx).Info("xxoo @ sayhello")
 	user := client.Get()
 
 	return &pb.HelloReply{Message: "Nihao " + user.Name}, nil

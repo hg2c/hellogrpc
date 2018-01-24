@@ -19,6 +19,7 @@ type Server struct {
 	hostPort string
 	tracer   opentracing.Tracer
 	logger   log.Factory
+	bestETA  *bestETA
 }
 
 // NewServer creates a new frontend.Server
@@ -27,6 +28,7 @@ func NewServer(hostPort string, tracer opentracing.Tracer, logger log.Factory) *
 		hostPort: hostPort,
 		tracer:   tracer,
 		logger:   logger,
+		bestETA:  newBestETA(tracer, logger),
 	}
 }
 
@@ -70,22 +72,18 @@ func (s *Server) dispatch(w http.ResponseWriter, r *http.Request) {
 	)
 	defer customerClient.Close()
 
-	customerClient.LoggerFactory().For(ctx).Info("xxoo")
+	customerClient.LoggerFactory().For(ctx).Info("xxoo @ frontend")
 	user := customerClient.Get()
 
 	s.logger.For(ctx).Info("Load Customer From gRPC", zap.String("name", user.Name))
 
-	// client := greeter.NewClient(s.tracer, s.logger.With(zap.String("component", "greeter_client")))
-	// client.Hello("luo")
-
 	// // TODO distinguish between user errors (such as invalid customer ID) and server failures
-	// response, err := s.bestETA.Get(ctx, customerID)
-	// if httperr.HandleError(w, err, http.StatusInternalServerError) {
-	// 	s.logger.For(ctx).Error("request failed", zap.Error(err))
-	// 	return
-	// }
+	response, err := s.bestETA.Get(ctx, customerID)
+	if httperr.HandleError(w, err, http.StatusInternalServerError) {
+		s.logger.For(ctx).Error("request failed", zap.Error(err))
+		return
+	}
 
-	response := "hello"
 	data, err := json.Marshal(response)
 	if httperr.HandleError(w, err, http.StatusInternalServerError) {
 		s.logger.For(ctx).Error("cannot marshal response", zap.Error(err))

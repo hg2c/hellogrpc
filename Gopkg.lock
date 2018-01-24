@@ -59,13 +59,15 @@
   branch = "master"
   name = "github.com/hwgo/pher"
   packages = [
+    "delay",
+    "httperr",
     "log",
     "metrics",
     "otgrpc",
     "tracing",
     "wgrpc"
   ]
-  revision = "9613943098f7ddb47843cc2cab1a659c1fb0da4b"
+  revision = "7789d1714b103274a951d074a49420c291e2e8ea"
 
 [[projects]]
   name = "github.com/inconshreveable/mousetrap"
@@ -139,6 +141,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/uber-go/atomic"
+  packages = ["."]
+  revision = "54f72d32435d760d5604f17a82e2435b28dc4ba5"
+  version = "v1.3.0"
+
+[[projects]]
   name = "github.com/uber/jaeger-client-go"
   packages = [
     ".",
@@ -170,6 +178,22 @@
   version = "v1.3.1"
 
 [[projects]]
+  name = "github.com/uber/tchannel-go"
+  packages = [
+    ".",
+    "internal/argreader",
+    "relay",
+    "thrift",
+    "thrift/gen-go/meta",
+    "tnet",
+    "tos",
+    "trand",
+    "typed"
+  ]
+  revision = "7bcb33f4bb908c21374f8bfdc9d4b1ebcbb8dab0"
+  version = "v1.8.1"
+
+[[projects]]
   name = "go.uber.org/atomic"
   packages = ["."]
   revision = "8474b86a5a6f79c443ce4b2992817ff32cf208b8"
@@ -198,11 +222,16 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = [
+    "bpf",
     "context",
     "http2",
     "http2/hpack",
     "idna",
+    "internal/iana",
+    "internal/socket",
     "internal/timeseries",
+    "ipv4",
+    "ipv6",
     "lex/httplex",
     "trace"
   ]
@@ -269,6 +298,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8e4b31d0467901fa4497bd3e37fc9c793e24f5cb204cf981c0186aabdb48ab07"
+  inputs-digest = "5953a28f61d441e59356bf81121f455de9cd3d787c50a2c1aab62ffcdfc217e3"
   solver-name = "gps-cdcl"
   solver-version = 1

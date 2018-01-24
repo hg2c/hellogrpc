@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"context"
+
 	"github.com/spf13/cobra"
 
 	"github.com/hg2c/hellogrpc/customer"
@@ -20,7 +22,7 @@ var customerClientCmd = &cobra.Command{
 		)
 		defer client.Close()
 
-		client.Get()
+		client.Get(context.Background())
 		return nil
 	},
 }

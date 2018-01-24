@@ -75,7 +75,7 @@ func (s *Server) dispatch(w http.ResponseWriter, r *http.Request) {
 	defer customerClient.Close()
 
 	customerClient.LoggerFactory().For(ctx).Info("xxoo @ frontend")
-	user := customerClient.Get()
+	user := customerClient.Get(ctx)
 
 	s.logger.For(ctx).Info("Load Customer From gRPC", zap.String("name", user.Name))
 

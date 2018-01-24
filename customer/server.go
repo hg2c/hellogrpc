@@ -17,7 +17,7 @@ type customerServer struct{}
 
 func (s *customerServer) Get(context.Context, *proto.CustomerRequest) (*proto.CustomerReply, error) {
 	// simulate RPC delay
-	time.Sleep(777 * time.Millisecond)
+	time.Sleep(7 * time.Millisecond)
 	return &proto.CustomerReply{
 			Id:       "218",
 			Name:     "Tom",

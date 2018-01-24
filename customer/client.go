@@ -31,10 +31,10 @@ func NewClient2(name string, host string, port int) *Client {
 	return &Client{ct, c}
 }
 
-func (c *Client) Get() *proto.CustomerReply {
+func (c *Client) Get(ctx context.Context) *proto.CustomerReply {
 	defer c.Close()
 
-	r, err := c.client.Get(context.Background(), &proto.CustomerRequest{Id: "760"})
+	r, err := c.client.Get(ctx, &proto.CustomerRequest{Id: "760"})
 	if err != nil {
 		c.Logger().Info("could not greet: ", zap.Error(err))
 		return nil

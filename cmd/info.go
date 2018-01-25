@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 )
 
 var infoCmd = NewServerCommand(
 	"info",
-	func(cmd *cobra.Command, args []string) {
-		fmt.Printf("args: %#v", args)
+	func(e string) error {
+		fmt.Printf("args: %#v", e)
+		return nil
 	},
 )
 

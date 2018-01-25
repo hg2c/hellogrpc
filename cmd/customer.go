@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
 	"github.com/hg2c/hellogrpc/customer"
 )
@@ -32,7 +33,7 @@ var (
 
 func init() {
 	RootCmd.AddCommand(customerCmd)
-
+	viper.BindEnv("customer.endpoint")
 	customerCmd.Flags().StringVarP(&customerOptions.serverInterface, "bind", "", "127.0.0.1", "interface to which the Customer server will bind")
 	customerCmd.Flags().IntVarP(&customerOptions.serverPort, "port", "p", 50052, "port on which the Customer server will listen")
 }

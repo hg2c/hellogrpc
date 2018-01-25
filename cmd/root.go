@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -35,12 +36,15 @@ func init() {
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
 	RootCmd.PersistentFlags().StringVarP(&metricsBackend, "metrics", "m", "expvar", "Metrics backend (expvar|prometheus)")
 
-	viper.BindPFlag("metrics", RootCmd.PersistentFlags().Lookup("metrics"))
-
 	// viper.SetConfigFile("~/.hwgo.yaml")
 }
 
 func initConfig() {
+	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	viper.BindPFlag("metrics", RootCmd.PersistentFlags().Lookup("metrics"))
+
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {
